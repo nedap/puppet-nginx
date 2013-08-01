@@ -1,0 +1,14 @@
+<%= scope.function_templatewlv(['nginx/vhost/_listen.erb', { 'listen_port' => @http_port }]) %>
+
+<%= scope.function_template(['nginx/vhost/_log.erb']) %>
+
+<%= scope.function_template(['nginx/vhost/_default.erb']) %>
+
+<%- if @redirect_to_https -%>
+  <%-# Sanity check in case someone enabled redirecting but disabled SSL %>
+  <%- if @ssl -%>
+      rewrite     ^/(.*)      <%= @server_name %>/$1 permanent;
+  <%- end -%>
+<%- else -%>
+  <%= scope.function_template(['nginx/vhost/_error_pages.erb']) %>
+<%- end -%>

@@ -1,0 +1,5 @@
+<%- unless @error_pages.empty? -%>
+  <%- @error_pages.each do |key, value| -%>
+    error_page <%= key %> <%= value %>;
+  <%- end -%>
+<%- end -%>

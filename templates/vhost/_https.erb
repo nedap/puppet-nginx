@@ -1,0 +1,13 @@
+<%= scope.function_templatewlv(['nginx/vhost/_listen.erb', { 'listen_port' => @https_port }]) %>
+<%= scope.function_template(['nginx/vhost/_log.erb']) %>
+
+<%= scope.function_template(['nginx/vhost/_default.erb']) %>
+
+<%= scope.function_template(['nginx/vhost/_error_pages.erb']) %>
+
+ssl_certificate     <%= @ssl_cert %>;
+ssl_certificate_key <%= @ssl_key %>;
+
+<%- if @strict_transport_security -%>
+add_header          Strict-Transport-Security "max-age=<%= @strict_transport_max_age %>; includeSubdomains";
+<%- end -%>

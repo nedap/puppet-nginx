@@ -1,0 +1,80 @@
+  include      conf.d/mime.types;
+  default_type <%= @default_mime_type %>;
+
+  # logging
+  access_log   /var/log/nginx/access.log;
+  error_log    /var/log/nginx/error.log;
+
+  # hash table sizes
+  server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>;
+  types_hash_max_size           <%= @types_hash_max_size %>;
+
+  # Keepalive: http://wiki.nginx.org/HttpCoreModule#keepalive_timeout
+  keepalive_timeout             <%= @keepalive_timeout %>;
+
+  # Sever tokens: http://wiki.nginx.org/HttpCoreModule#server_tokens
+  <%- if @server_tokens -%>
+    server_tokens on;
+  <%- else -%>
+    server_tokens off;
+  <%- end -%>
+
+  # TCP socket options: http://wiki.nginx.org/HttpCoreModule#tcp_nopush
+  <%- if @tcp_nopush -%>
+    tcp_nopush on;
+  <%- else -%>
+    tcp_nopush off;
+  <%- end -%>
+
+  # TCP socket options: http://wiki.nginx.org/HttpCoreModule#tcp_nodelay
+  <%- if @tcp_nodelay -%>
+    tcp_nodelay on;
+  <%- else -%>
+    tcp_nodelay off;
+  <%- end -%>
+
+  # Sendfile: http://wiki.nginx.org/HttpCoreModule#sendfile
+  <%- if @sendfile -%>
+    sendfile on;
+  <%- else -%>
+    sendfile off;
+  <%- end -%>
+  sendfile_max_chunk <%= @sendfile_max_chunk %>;
+
+  # gzip: http://wiki.nginx.org/HttpGzipModule
+  <%- if @gzip -%>
+    gzip on;
+  <%- else -%>
+    gzip off;
+  <%- end -%>
+
+  <%- @gzip_config.each do |key, value| -%>
+    <%- if key == 'disable' -%>
+      gzip_<%= key %> "<%= value %>";
+    <%- else -%>
+      gzip_<%= key %> <%- if value.kind_of?(Array) -%> <%= value.join(' ') %> <%- else -%> <%= value %><%- end -%>;
+    <%- end -%>
+  <%- end -%>
+
+  <%- if @default_status -%>
+    server {
+      listen            80  default_server;
+      <%- if @ipv6 -%>
+        listen            [::]:80;
+      <%- end -%>
+      server_name       _;
+      root              <%= @dir_www %>;
+
+      include           conf.d/location.defaults;
+
+      location / {
+        stub_status     on;
+        access_log      off;
+        log_not_found   off;
+        <%- @status_allowed_ips.each do |ip| -%>
+          allow           <%= ip %>;
+        <%- end -%>
+        deny            all;
+      }
+    }
+  <%- end -%>

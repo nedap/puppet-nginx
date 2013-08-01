@@ -1,0 +1,4 @@
+ssl_prefer_server_ciphers on;
+ssl_ciphers               <%= @ssl_features['ciphers'].join(':') %>;
+ssl_protocols             <%= @ssl_features['protocols'].join(' ') %>;
+ssl_session_cache         <%- if not @ssl_features['session_cache'] -%>off<%- else -%><%= @ssl_features['session_cache'] %><%- end -%>;

@@ -1,0 +1,5 @@
+listen      <%= listen_port %>;
+<%- if @ipv6 -%>
+listen      [::]:<%= listen_port %>;
+<%- end -%>
+server_name <%= @server_name %>;
