@@ -68,6 +68,30 @@ or one of the vhosts order ranges have been set up.
   * 201-298: free for your use
   * 299: closes the 'https' block
 
+## Dependencies
+
+This module depends on the following Puppet modules:
+
+  * Puppetlabs stdlib: https://github.com/puppetlabs/puppetlabs-stdlib
+  * Onyxpoint concat: https://github.com/onyxpoint/pupmod-concat
+  * templatelv: https://github.com/duritong/puppet-templatewlv
+
+## Contributing
+
+Feel free to fork, epand upon this module and send pull requests back
+our way.
+
+For contributions to be accepted we do require the following:
+
+  * Code must pass without warnings through puppet-lint or have a real
+    good reason as why it can't pass that check.
+  * Certain manifests are extensively documented because of how important
+    they are. Should your change touch these manifests you must update the
+    documentation accordingly.
+  * Tests must be added or changed to reflect the new behaviour and must of
+    course pass. Tests can be found in the ``spec/`` directory and are written
+    with the help of rspec-puppet.
+
 ## License
 
 Copyright 2012 - 2013, Nedap Steppingstone.
