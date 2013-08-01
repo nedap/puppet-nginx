@@ -86,4 +86,4 @@ limitations under the License.
 
 ## Support
 
-Nedap Steppingstone
+File an issue at: https://github.com/nedap/puppet-nginx/issues.
